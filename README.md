@@ -1,5 +1,7 @@
 # Bee ReID Preprocessing
 
+[中文说明](README.zh-CN.md)
+
 Portable bee crop preprocessing for deployment with another tracker and another ReID model.
 
 This repository contains:
