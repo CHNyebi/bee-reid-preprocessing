@@ -160,10 +160,26 @@ python scripts/extract_reid_datasets.py \
 
 方向分类器数据：
 
-- 标签：`data/bee_direction_labeled_batch001_004/labels.csv`
-- 图片：`data/bee_direction_labeled_batch001_003/images/`
-- 图片：`data/bee_direction_labeled_batch004_200/images/`
-- 当前数量：500 张图片，500 条 label
+- 标签：`data/bee_direction_newmask_train400_20260517/labels.csv`
+- 图片：`data/bee_direction_newmask_train400_20260517/images/`
+- 当前数量：400 张图片，400 条 label
+- 标签分布：`head_left=170`，`head_right=150`，`unclear=80`
+- 这些图片是新流程生成的、已经水平旋平的 masked bee crop；旧的 `bee_direction_labeled_batch001_003` 数据已废弃，不再作为方向分类训练数据。
+- 原始压缩包也保留在：`data/bee_direction_newmask_train400_20260517.zip`
+
+当前方向分类器是 ResNet18 三分类模型，类别为：
+
+- `head_left`
+- `head_right`
+- `unclear`
+
+已知验证结果：
+
+- 5 折交叉验证 Accuracy：`77.00%`
+- 5 折交叉验证 Balanced Accuracy：`75.93%`
+- 交叉验证混淆矩阵，类别顺序为 `head_left, head_right, unclear`：`[[130, 17, 23], [12, 122, 16], [8, 16, 56]]`
+- 额外 113 张完整流程测试：`88/113 = 77.88%`
+- 完整流程按类召回：`head_left=36/42`，`head_right=30/39`，`unclear=22/32`
 
 去背景模型数据：
 
@@ -178,9 +194,11 @@ python scripts/extract_reid_datasets.py \
 
 ```bash
 python scripts/train_resnet_direction.py \
-  --labels-csv data/bee_direction_labeled_batch001_004/labels.csv \
+  --labels-csv data/bee_direction_newmask_train400_20260517/labels.csv \
   --output-model models/bee_direction_resnet18_triclass.joblib
 ```
+
+重训是可选操作。当前默认方向分类器权重的 joblib 元信息已经对应这套新流程 400 张训练数据。
 
 训练去背景模型：
 

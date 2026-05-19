@@ -76,15 +76,37 @@ python scripts/extract_reid_datasets.py \
 
 The names containing `sam_post` are legacy dataset names from earlier experiments. New deployment code in this repository does not depend on SAM.
 
+## Direction Classifier Data And Metrics
+
+The bundled direction classifier is a ResNet18 three-class model:
+
+- `head_left`
+- `head_right`
+- `unclear`
+
+It corresponds to `data/bee_direction_newmask_train400_20260517.zip`, also extracted in `data/bee_direction_newmask_train400_20260517/` for immediate retraining. The training set has 400 already horizontally aligned masked bee crops: `head_left=170`, `head_right=150`, `unclear=80`.
+
+Known validation for the current model:
+
+- 5-fold CV accuracy: `77.00%`
+- 5-fold CV balanced accuracy: `75.93%`
+- CV confusion matrix in class order `head_left, head_right, unclear`: `[[130, 17, 23], [12, 122, 16], [8, 16, 56]]`
+- Full-flow 113-sample test accuracy: `88/113 = 77.88%`
+- Full-flow per-class recall: `head_left=36/42`, `head_right=30/39`, `unclear=22/32`
+
+The old `bee_direction_labeled_batch001_003` direction dataset is deprecated and is not included for new training.
+
 ## Train Preprocessing Models
 
 Direction classifier:
 
 ```bash
 python scripts/train_resnet_direction.py \
-  --labels-csv data/bee_direction_labeled_batch001_004/labels.csv \
+  --labels-csv data/bee_direction_newmask_train400_20260517/labels.csv \
   --output-model models/bee_direction_resnet18_triclass.joblib
 ```
+
+Retraining is optional. The default model already points to the new-mask 400-sample training source in its joblib metadata.
 
 Foreground segmentation:
 

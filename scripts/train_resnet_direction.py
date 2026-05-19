@@ -73,7 +73,7 @@ def imread(path: Path):
 
 
 def load_labeled_rows(labels_csv: Path):
-    with labels_csv.open("r", newline="", encoding="utf-8") as f:
+    with labels_csv.open("r", newline="", encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
     normalized_rows = []
     for row in rows:
@@ -102,7 +102,7 @@ def resolve_row_image(row, base_dir: Path):
         value = (row.get(key) or "").strip()
         if not value:
             continue
-        path = Path(value)
+        path = Path(value.replace("\\", "/"))
         if not path.is_absolute():
             path = base_dir / path
         return path, already_aligned
@@ -178,7 +178,7 @@ def prepare_samples(
         except Exception as exc:  # noqa: BLE001 - keep batch training robust.
             failures.append(
                 {
-                    "index": row.get("index"),
+                    "index": row_identifier(row),
                     "source": row.get("source") or row.get("image_path") or row.get("aligned_path"),
                     "label": row.get("label"),
                     "error": str(exc),
@@ -204,7 +204,15 @@ class BeeDirectionDataset(Dataset):
         image, label, row = self.items[index]
         pil = Image.fromarray(image)
         tensor = self.transform(pil)
-        return tensor, CLASS_TO_IDX[label], row.get("index", "")
+        return tensor, CLASS_TO_IDX[label], row_identifier(row)
+
+
+def row_identifier(row) -> str:
+    for key in ("index", "global_index", "source_index"):
+        value = (row.get(key) or "").strip()
+        if value:
+            return value
+    return ""
 
 
 def make_transforms(image_size: int, train: bool):

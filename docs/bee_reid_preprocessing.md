@@ -17,6 +17,17 @@ SAM is retired. The current deployment path uses only:
 - `models/bee_foreground_unetpp_resnet18_v2/best_model.pt`
 - `models/bee_direction_resnet18_triclass.joblib`
 
+The direction classifier is a ResNet18 three-class model trained from the new
+masked-bee 400-sample dataset:
+
+- Dataset archive: `data/bee_direction_newmask_train400_20260517.zip`
+- Extracted labels: `data/bee_direction_newmask_train400_20260517/labels.csv`
+- Classes: `head_left`, `head_right`, `unclear`
+- Label counts: `head_left=170`, `head_right=150`, `unclear=80`
+- 5-fold CV: `77.00%` accuracy, `75.93%` balanced accuracy
+- CV confusion matrix in class order `head_left, head_right, unclear`: `[[130, 17, 23], [12, 122, 16], [8, 16, 56]]`
+- Full-flow 113-sample test: `88/113 = 77.88%`
+
 ## Online Use
 
 Insert the preprocessor between detection cropping and ReID feature extraction:
@@ -78,10 +89,13 @@ Direction classifier:
 
 ```bash
 python scripts/train_resnet_direction.py \
-  --labels-csv data/bee_direction_labeled_batch001_004/labels.csv \
+  --labels-csv data/bee_direction_newmask_train400_20260517/labels.csv \
   --output-model models/bee_direction_resnet18_triclass_retrained.joblib \
   --report-dir outputs/bee_direction_retrain \
   --device cuda
 ```
+
+The old `bee_direction_labeled_batch001_003` dataset is deprecated and should
+not be used for new direction-classifier training.
 
 Both model artifacts should be stored through Git LFS if they are committed.
