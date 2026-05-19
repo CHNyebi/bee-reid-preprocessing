@@ -1,0 +1,17 @@
+{
+  "output_dir": "D:\\personal_resources\\CV_research\\boxmot\\output\\bee_foreground_manual_dataset_v2_combined_264_20260516",
+  "dataset_dir": "D:\\personal_resources\\CV_research\\boxmot\\output\\bee_foreground_manual_dataset_v2_combined_264_20260516\\dataset",
+  "sources": [
+    {
+      "name": "v1_190",
+      "path": "D:\\personal_resources\\CV_research\\boxmot\\output\\bee_foreground_manual_dataset_v1"
+    },
+    {
+      "name": "hard75",
+      "path": "D:\\personal_resources\\CV_research\\boxmot\\output\\bee_foreground_manual_dataset_v2_hard75_20260516"
+    }
+  ],
+  "total_samples": 264,
+  "train_samples": 211,
+  "val_samples": 53
+}

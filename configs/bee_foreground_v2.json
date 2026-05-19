@@ -1,0 +1,49 @@
+{
+  "version": "bee_foreground_v2_20260516",
+  "task": "binary bee foreground segmentation",
+  "model": {
+    "architecture": "UnetPlusPlus",
+    "encoder": "resnet18",
+    "encoder_weights": null,
+    "in_channels": 3,
+    "classes": [
+      "background",
+      "bee"
+    ],
+    "image_size": 256,
+    "checkpoint": "models/bee_foreground_unetpp_resnet18_v2/best_model.pt"
+  },
+  "dataset": {
+    "root": "data/bee_foreground_v2/dataset",
+    "train_samples": 211,
+    "val_samples": 53,
+    "total_samples": 264,
+    "registry": "data/bee_foreground_v2/annotation_registry.csv"
+  },
+  "training": {
+    "seed": 20260516,
+    "batch_size": 4,
+    "requested_epochs": 80,
+    "completed_epochs": 58,
+    "best_epoch": 41,
+    "learning_rate": 0.0003,
+    "optimizer": "AdamW",
+    "loss": "BCEWithLogitsLoss + DiceLoss",
+    "windows_note": "The released run used CUDA with cuDNN disabled after cuDNN failures on the local Windows machine."
+  },
+  "best_val_metrics": {
+    "iou": 0.7764869378297324,
+    "dice": 0.8741825467946727,
+    "precision": 0.8738019699096848,
+    "recall": 0.8745634553380479,
+    "accuracy": 0.8886381905033903,
+    "loss": 0.4998931344949974
+  },
+  "inference_defaults": {
+    "threshold": 0.5,
+    "min_area": 8,
+    "close_ratio": 0.012,
+    "feather_ratio": 0.012,
+    "background_value": 0
+  }
+}

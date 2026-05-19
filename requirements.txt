@@ -1,0 +1,8 @@
+numpy
+opencv-python
+Pillow
+joblib
+scikit-learn
+torch
+torchvision
+segmentation-models-pytorch==0.3.3

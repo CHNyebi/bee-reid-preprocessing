@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bee-reid-preprocessing"
+version = "0.1.0"
+description = "Portable bee crop foreground removal and orientation normalization for ReID deployment."
+requires-python = ">=3.8"
+dependencies = [
+  "numpy",
+  "opencv-python",
+  "Pillow",
+  "joblib",
+  "scikit-learn",
+  "torch",
+  "torchvision",
+  "segmentation-models-pytorch==0.3.3",
+]
+
+[tool.setuptools.packages.find]
+include = ["bee_reid_preprocessing*", "bee_orientation_normalizer*"]
