@@ -28,6 +28,23 @@ masked-bee 400-sample dataset:
 - CV confusion matrix in class order `head_left, head_right, unclear`: `[[130, 17, 23], [12, 122, 16], [8, 16, 56]]`
 - Full-flow 113-sample test: `88/113 = 77.88%`
 
+The foreground model is Unet++ with a ResNet18 encoder:
+
+- Dataset: `data/bee_foreground_v2/dataset`
+- Checkpoint: `models/bee_foreground_unetpp_resnet18_v2/best_model.pt`
+- Image size: `256`
+- Train/val split: `211/53`
+- Best epoch: `41`
+- Checkpoint val metrics: IoU `0.7765`, Dice `0.8742`, Precision `0.8738`, Recall `0.8746`, Accuracy `0.8886`, loss `0.4999`
+- Independent original-size pixel micro: IoU `0.8008`, Dice `0.8894`, Precision `0.8871`, Recall `0.8916`, Accuracy `0.9033`
+- Independent original-size image macro: IoU `0.7807`, Dice `0.8724`, Precision `0.8732`, Recall `0.8820`, Accuracy `0.8891`
+
+Repeat the original-size foreground validation with:
+
+```bash
+python scripts/evaluate_bee_foreground_segmentation.py --device cpu
+```
+
 ## Online Use
 
 Insert the preprocessor between detection cropping and ReID feature extraction:

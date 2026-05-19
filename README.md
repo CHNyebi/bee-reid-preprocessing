@@ -96,6 +96,36 @@ Known validation for the current model:
 
 The old `bee_direction_labeled_batch001_003` direction dataset is deprecated and is not included for new training.
 
+## Foreground Segmentation Data And Metrics
+
+The bundled foreground model is Unet++ with a ResNet18 encoder:
+
+- dataset: `data/bee_foreground_v2/dataset`
+- checkpoint: `models/bee_foreground_unetpp_resnet18_v2/best_model.pt`
+- image size: `256`
+- train/val split: `211/53`
+- best epoch: `41`
+
+Training validation metrics saved in the checkpoint:
+
+- IoU: `0.7765`
+- Dice: `0.8742`
+- Precision: `0.8738`
+- Recall: `0.8746`
+- Accuracy: `0.8886`
+- Val loss: `0.4999`
+
+Independent original-size validation can be repeated with:
+
+```bash
+python scripts/evaluate_bee_foreground_segmentation.py --device cpu
+```
+
+Expected results on the bundled val split:
+
+- Pixel micro: IoU `0.8008`, Dice `0.8894`, Precision `0.8871`, Recall `0.8916`, Accuracy `0.9033`
+- Image macro: IoU `0.7807`, Dice `0.8724`, Precision `0.8732`, Recall `0.8820`, Accuracy `0.8891`
+
 ## Train Preprocessing Models
 
 Direction classifier:

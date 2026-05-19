@@ -188,6 +188,33 @@ python scripts/extract_reid_datasets.py \
 - val：53 张 image，53 张 mask
 - 元数据：`data/bee_foreground_v2/*.csv` 和 `data/bee_foreground_v2/dataset_summary.json`
 
+当前发布的去背景模型：
+
+- 结构：Unet++ + ResNet18 encoder
+- 权重：`models/bee_foreground_unetpp_resnet18_v2/best_model.pt`
+- 输入尺寸：`256`
+- best epoch：`41`
+
+训练时记录的验证集指标：
+
+- IoU：`0.7765`
+- Dice：`0.8742`
+- Precision：`0.8738`
+- Recall：`0.8746`
+- Accuracy：`0.8886`
+- Val loss：`0.4999`
+
+独立评估脚本会把预测还原到原图尺寸后再算指标：
+
+```bash
+python scripts/evaluate_bee_foreground_segmentation.py --device cpu
+```
+
+当前 val split 复现结果：
+
+- Pixel micro：IoU `0.8008`，Dice `0.8894`，Precision `0.8871`，Recall `0.8916`，Accuracy `0.9033`
+- Image macro：IoU `0.7807`，Dice `0.8724`，Precision `0.8732`，Recall `0.8820`，Accuracy `0.8891`
+
 ## 重新训练预处理子模型
 
 训练方向分类器：

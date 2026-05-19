@@ -86,6 +86,22 @@ Foreground segmentation data:
 - Val: 53 images and 53 masks
 - Metadata: `data/bee_foreground_v2/*.csv` and `data/bee_foreground_v2/dataset_summary.json`
 
+Current foreground segmentation validation:
+
+- Model: Unet++ with ResNet18 encoder
+- Checkpoint: `models/bee_foreground_unetpp_resnet18_v2/best_model.pt`
+- Image size: `256`
+- Best epoch: `41`
+- Checkpoint val metrics: IoU `0.7765`, Dice `0.8742`, Precision `0.8738`, Recall `0.8746`, Accuracy `0.8886`, loss `0.4999`
+- Independent original-size val metrics: pixel micro IoU `0.8008`, Dice `0.8894`, Precision `0.8871`, Recall `0.8916`, Accuracy `0.9033`
+- Independent original-size val metrics: image macro IoU `0.7807`, Dice `0.8724`, Precision `0.8732`, Recall `0.8820`, Accuracy `0.8891`
+
+Repeat the original-size check with:
+
+```bash
+python scripts/evaluate_bee_foreground_segmentation.py --device cpu
+```
+
 ## Re-train The Sub-Models
 
 Direction classifier:
